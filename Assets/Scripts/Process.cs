@@ -1,6 +1,12 @@
 #region IMPORTS
 
 using UnityEngine;
+using System.IO;
+using NUnit.Framework;
+using System.Collections.Generic;
+
+
+
 
 #if GAMBIT_PROCESS
 using gambit.process;
@@ -18,7 +24,25 @@ namespace gambit.launcher
     {
         #region PUBLIC - VARIABLES
 
+        /// <summary>
+        /// The Process Manager System returned after CreateSystem()
+        /// </summary>
         public ProcessManager.ProcessSystem system;
+
+        /// <summary>
+        /// Path to the process to call
+        /// </summary>
+        public string path;
+
+        /// <summary>
+        /// Process argument keys
+        /// </summary>
+        public List<string> argumentKeys;
+
+        /// <summary>
+        /// Process argument values
+        /// </summary>
+        public List<string> argumentValues;
 
         #endregion
 
@@ -46,9 +70,39 @@ namespace gambit.launcher
         private void CreateSystem()
         //-----------------------------//
         {
+            ProcessManager.Options options = new ProcessManager.Options();
+            options.path = path;
+            options.argumentKeys = argumentKeys;
+            options.showDebugLogs = true;
+
             ProcessManager.Create
             (
+                options,
 
+                //ON CREATE SUCCESS
+                (ProcessManager.ProcessSystem _system) =>
+                {
+                    system = _system;
+                },
+
+                //ON CREATE FAILED
+                (string error ) =>
+                {
+                    Debug.LogError( error );
+                },
+
+                //ON STATE CHANGED
+                ( ProcessManager.ProcessSystem _system, ProcessManager.State state)=>
+                {
+                    if(state == ProcessManager.State.Running)
+                    {
+                        FadeManager.Fade( 1f, 3f );
+                    }
+                    else if(state == ProcessManager.State.NotRunning)
+                    {
+                        FadeManager.Fade( 0f, 3f );
+                    }
+                }
             );
         
         } //END CreateSystem Method
