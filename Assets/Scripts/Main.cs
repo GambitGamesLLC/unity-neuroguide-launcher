@@ -13,6 +13,12 @@ namespace gambit.launcher
     /// </summary>
     public class Main: MonoBehaviour
     {
+        #region PUBLIC - VARIABLES
+
+        public float fadeInDuration;
+
+        #endregion
+
         #region PUBLIC - START
 
         /// <summary>
@@ -22,7 +28,7 @@ namespace gambit.launcher
         public void Start()
         //----------------------------------//
         {
-            FadeManager.Fade( 0f, 3f );
+            FadeManager.Fade( 0f, fadeInDuration );
             
         } //END Start
 

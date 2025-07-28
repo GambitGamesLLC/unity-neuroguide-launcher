@@ -952,7 +952,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tesseract
+  m_text: 'Tesseract
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1060,6 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0605a97f8c13e1647a1b0deb4d45c1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInDuration: 2
 --- !u!4 &1216751681
 Transform:
   m_ObjectHideFlags: 0
@@ -1232,7 +1235,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.654088, g: 0.654088, b: 0.654088, a: 1}
     m_PressedColor: {r: 0.40784314, g: 0.5803922, b: 0.65882355, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1313,9 +1316,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fda5d070b282145b2d8492a7698af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: C:\Users\Derrick\AppData\Local\M3DVR\Ship\Ship.exe
+  path: '%LOCALAPPDATA%\M3DVR\Ship\Ship.exe'
   argumentKeys: []
   argumentValues: []
+  fadeInDuration: 2
+  fadeOutDuration: 3
+  buttonsToSetInteractable:
+  - {fileID: 1946480616}
+  - {fileID: 2053034898}
 --- !u!1 &2053034896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,7 +1390,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.654088, g: 0.654088, b: 0.654088, a: 1}
     m_PressedColor: {r: 0.40784314, g: 0.5803922, b: 0.65882355, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1463,9 +1471,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fda5d070b282145b2d8492a7698af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: C:\Users\Derrick\AppData\Local\M3DVR\BuildingBlocks\BuildingBlocks.exe
+  path: '%LOCALAPPDATA%\M3DVR\BuildingBlocks\BuildingBlocks.exe'
   argumentKeys: []
   argumentValues: []
+  fadeInDuration: 2
+  fadeOutDuration: 3
+  buttonsToSetInteractable:
+  - {fileID: 1946480616}
+  - {fileID: 2053034898}
 --- !u!224 &2088236174 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1855074301497560758, guid: ada5d1dec0cd4cd4f8d70e244d9b9cb2, type: 3}

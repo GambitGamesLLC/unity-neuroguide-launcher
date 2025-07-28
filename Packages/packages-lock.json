@@ -7,12 +7,19 @@
       "dependencies": {},
       "hash": "7fcd6b1e76ae6ab331438705fb4a4a71f2fa4e23"
     },
+    "com.gambit.config": {
+      "version": "https://github.com/GambitGamesLLC/unity-config-manager.git?path=Assets/Plugins/Package",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "469ea45509501f78159107d93416fd7587d43b90"
+    },
     "com.gambit.process": {
       "version": "https://github.com/GambitGamesLLC/unity-process-manager.git?path=Assets/Plugins/Package",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "9b8f03fef4e2649c57a73ba1880b256ca4307b55"
+      "hash": "fb7281abae7560b58414b67db9ea8038d7b8ec6b"
     },
     "com.gambit.singleton": {
       "version": "https://github.com/GambitGamesLLC/unity-singleton.git?path=Assets/Plugins/Package",
@@ -27,6 +34,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "2301f2ab846e5a96922247c3026f0830dfe19dee"
+    },
+    "com.leguar.totaljson": {
+      "version": "https://github.com/GambitGamesLLC/unity-plugin-totaljson.git?path=Assets/Plugins/Package",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e099e483bf780a1495e4eda83974a37fff65a6b3"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

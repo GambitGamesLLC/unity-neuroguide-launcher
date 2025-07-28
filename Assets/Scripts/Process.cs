@@ -1,15 +1,16 @@
 #region IMPORTS
 
 using UnityEngine;
-using System.IO;
-using NUnit.Framework;
 using System.Collections.Generic;
-
-
-
 
 #if GAMBIT_PROCESS
 using gambit.process;
+using UnityEngine.UI;
+
+#endif
+
+#if GAMBIT_CONFIG
+using gambit.config;
 #endif
 
 #endregion
@@ -44,6 +45,18 @@ namespace gambit.launcher
         /// </summary>
         public List<string> argumentValues;
 
+        /// <summary>
+        /// The duration of the fade in tween used when the process starts
+        /// </summary>
+        public float fadeInDuration;
+
+        /// <summary>
+        /// The duration of the fade out tween used when the process ends
+        /// </summary>
+        public float fadeOutDuration;
+
+        public List<Button> buttonsToSetInteractable;
+
         #endregion
 
         #region PUBLIC - START
@@ -70,10 +83,12 @@ namespace gambit.launcher
         private void CreateSystem()
         //-----------------------------//
         {
+            path = ConfigManager.UnescapeAndExpandPath( path );
+
             ProcessManager.Options options = new ProcessManager.Options();
             options.path = path;
             options.argumentKeys = argumentKeys;
-            options.showDebugLogs = true;
+            options.showDebugLogs = false;
 
             ProcessManager.Create
             (
@@ -96,11 +111,13 @@ namespace gambit.launcher
                 {
                     if(state == ProcessManager.State.Running)
                     {
-                        FadeManager.Fade( 1f, 3f );
+                        FadeManager.Fade( 1f, fadeInDuration );
+                        SetButtons( false );
                     }
                     else if(state == ProcessManager.State.NotRunning)
                     {
-                        FadeManager.Fade( 0f, 3f );
+                        FadeManager.Fade( 0f, fadeOutDuration );
+                        SetButtons( true );
                     }
                 }
             );
@@ -127,7 +144,6 @@ namespace gambit.launcher
                 ()=>
                 {
                     Debug.Log( "Process.cs Launch() Process launched successfully" );
-                    FadeManager.Fade( 1f, 3f );
                 },
 
                 //ON LAUNCH FAILED
@@ -138,6 +154,28 @@ namespace gambit.launcher
             );
 
         } //END Launch
+
+        #endregion
+
+        #region PRIVATE - SET BUTTONS
+
+        /// <summary>
+        /// Sets the buttons as interactable or disabled
+        /// </summary>
+        /// <param name="active"></param>
+        //----------------------------------------------------//
+        private void SetButtons( bool active )
+        //----------------------------------------------------//
+        {
+            if(buttonsToSetInteractable != null && buttonsToSetInteractable.Count > 0)
+            {
+                foreach(Button button in buttonsToSetInteractable)
+                {
+                    button.interactable = active;
+                }
+            }
+        
+        } //END SetButtons
 
         #endregion
 

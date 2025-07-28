@@ -39,6 +39,8 @@ namespace gambit.launcher
         {
             base.Awake();
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
+#pragma warning disable CS0168 // Variable is declared but never used
             try
             {
                 image = GetComponent<Image>();
@@ -50,6 +52,8 @@ namespace gambit.launcher
             {
                 Debug.LogError( "FadeManager.cs Awake() unable to find image component attached to this GameObject" );
             }
+#pragma warning restore CS0168 // Variable is declared but never used
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
         } //END Awake
 
