@@ -1,0 +1,24 @@
+{
+	"config": {
+		"version": 1,
+		"timestamp": "2025-07-28 12:00:00",
+		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\config.json"
+	},
+	"app": {
+		"longname": "M3DVR NeuroGuide Launcher",
+		"shortname": "Launcher",
+		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\Launcher.exe"
+	},
+	"communication": {
+		"address": "127.0.0.1",
+		"port": 50000
+	},
+	"app1": {
+		"name": "Brain Waves",
+		"path": "%LOCALAPPDATA%\\M3DVR\\Ship\\Ship.exe"
+	},
+	"app2": {
+		"name": "Tesseract",
+		"path": "%LOCALAPPDATA%\\M3DVR\\BuildingBlocks\\BuildingBlocks.exe"
+	}
+}

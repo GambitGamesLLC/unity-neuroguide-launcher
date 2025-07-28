@@ -2,11 +2,12 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System;
+using TMPro;
 
 #if GAMBIT_PROCESS
 using gambit.process;
-using UnityEngine.UI;
-
 #endif
 
 #if GAMBIT_CONFIG
@@ -25,6 +26,8 @@ namespace gambit.launcher
     {
         #region PUBLIC - VARIABLES
 
+        public TextMeshPro text;
+
         /// <summary>
         /// The Process Manager System returned after CreateSystem()
         /// </summary>
@@ -33,6 +36,7 @@ namespace gambit.launcher
         /// <summary>
         /// Path to the process to call
         /// </summary>
+        [NonSerialized]
         public string path;
 
         /// <summary>
@@ -68,19 +72,19 @@ namespace gambit.launcher
         public void Start()
         //------------------------------//
         {
-            CreateSystem();
+            //CreateSystem();
 
         } //END Start Method
 
         #endregion
 
-        #region PRIVATE - CREATE PROCESS MANAGER SYSTEM
+        #region PUBLIC - CREATE PROCESS MANAGER SYSTEM
 
         /// <summary>
         /// Creates a process manager system based on the variables set in the editor
         /// </summary>
         //-----------------------------//
-        private void CreateSystem()
+        public void CreateSystem()
         //-----------------------------//
         {
             path = ConfigManager.UnescapeAndExpandPath( path );
@@ -176,6 +180,22 @@ namespace gambit.launcher
             }
         
         } //END SetButtons
+
+        #endregion
+
+        #region PRIVATE - SET TEXT
+
+        /// <summary>
+        /// Sets the text property of the button
+        /// </summary>
+        /// <param name="_text"></param>
+        //--------------------------------------//
+        public void SetText( string _text )
+        //--------------------------------------//
+        {
+            text.SetText( _text );
+
+        } //END SetText Method
 
         #endregion
 

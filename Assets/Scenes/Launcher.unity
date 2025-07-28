@@ -1063,6 +1063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInDuration: 2
+  app1: {fileID: 1946480619}
+  app2: {fileID: 2053034901}
 --- !u!4 &1216751681
 Transform:
   m_ObjectHideFlags: 0
@@ -1316,7 +1318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fda5d070b282145b2d8492a7698af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: '%LOCALAPPDATA%\M3DVR\Ship\Ship.exe'
   argumentKeys: []
   argumentValues: []
   fadeInDuration: 2
@@ -1471,7 +1472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fda5d070b282145b2d8492a7698af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: '%LOCALAPPDATA%\M3DVR\BuildingBlocks\BuildingBlocks.exe'
   argumentKeys: []
   argumentValues: []
   fadeInDuration: 2
