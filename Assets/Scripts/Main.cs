@@ -333,7 +333,8 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-            
+
+
             //App2 - Name
             ConfigManager.GetNestedString
             (
@@ -443,7 +444,8 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-            
+
+
         } //END GetVariablesFromConfig Method
 
         #endregion
