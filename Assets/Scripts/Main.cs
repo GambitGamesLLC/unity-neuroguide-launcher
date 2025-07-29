@@ -1,6 +1,8 @@
 #region IMPORTS
 
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 #if GAMBIT_CONFIG
 using gambit.config;
@@ -35,9 +37,19 @@ namespace gambit.launcher
         #region PRIVATE - VARIABLES
 
         /// <summary>
-        /// Config Manager System created at start
+        /// Config Manager System for the launcher config file
         /// </summary>
-        private ConfigManager.ConfigManagerSystem configSystem;
+        private ConfigManager.ConfigManagerSystem configSystem_launcher;
+
+        /// <summary>
+        /// Config Manager System for the app1 config file
+        /// </summary>
+        private ConfigManager.ConfigManagerSystem configSystem_app1;
+
+        /// <summary>
+        /// Config Manager System for the app2 config file
+        /// </summary>
+        private ConfigManager.ConfigManagerSystem configSystem_app2;
 
         #endregion
 
@@ -52,6 +64,9 @@ namespace gambit.launcher
         {
             FadeManager.Fade( 0f, fadeInDuration );
 
+            int count = 0;
+            int total = 3;
+
             ConfigManager.UpdateLocalDataAndReturn
             (
                 "config",
@@ -60,13 +75,65 @@ namespace gambit.launcher
                 //ON SUCCESS
                 (ConfigManager.ConfigManagerSystem _system ) => 
                 {
-                    configSystem = _system;
+                    configSystem_launcher = _system;
 
-                    GetVariablesFromConfig();
+                    count++;
+                    if( count == total )
+                    {
+                        GetVariablesFromConfig();
+                    }
                 },
 
                 //ON FAILED
                 (string error)=>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            ConfigManager.UpdateLocalDataAndReturn
+            (
+                "app1",
+                true,
+
+                //ON SUCCESS
+                ( ConfigManager.ConfigManagerSystem _system ) =>
+                {
+                    configSystem_app1 = _system;
+
+                    count++;
+                    if(count == total)
+                    {
+                        GetVariablesFromConfig();
+                    }
+                },
+
+                //ON FAILED
+                ( string error ) =>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            ConfigManager.UpdateLocalDataAndReturn
+            (
+                "app2",
+                true,
+
+                //ON SUCCESS
+                ( ConfigManager.ConfigManagerSystem _system ) =>
+                {
+                    configSystem_app2 = _system;
+
+                    count++;
+                    if(count == total)
+                    {
+                        GetVariablesFromConfig();
+                    }
+                },
+
+                //ON FAILED
+                ( string error ) =>
                 {
                     Debug.LogError( error );
                 }
@@ -85,40 +152,114 @@ namespace gambit.launcher
         private void GetVariablesFromConfig()
         //----------------------------------------//
         {
+            int count = 0;
+            int total = 8;
+
             //App1 - Name
             ConfigManager.GetNestedString
             (
-                configSystem,
+                configSystem_app1,
                 new string[ ]
                 {
-                    "app1",
+                    "app",
                     "name"
                 },
-                (string name)=>
+                ( string value ) =>
                 {
-                    app1.SetText( name );
+                    app1.SetText( value );
+
+                    count++;
+                    if( count == total )
+                    {
+                        CreateProcessSystem();
+                    }
                 },
-                (string error)=>
+                ( string error ) =>
                 {
-                    Debug.LogError( error ); 
+                    Debug.LogError( error );
                 }
             );
 
             //App1 - Path
             ConfigManager.GetNestedPath
             (
-                configSystem,
+                configSystem_app1,
                 new string[ ] 
                 {
-                    "app1",
+                    "app",
                     "path"
                 },
                 (string path)=>
                 {
-                    app1.path = path;
-                    app1.CreateSystem();
+                    app1.SetPath( path );
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
                 },
                 (string error)=>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            //App1 - Argument Keys
+            ConfigManager.GetNestedString
+            (
+                configSystem_app1,
+                new string[ ]
+                {
+                    "app",
+                    "argumentKeys"
+                },
+                ( string value ) =>
+                {
+                    if( !string.IsNullOrEmpty( value ) )
+                    {
+                        //Split the comma deliminated string into a List<string>
+                        List<string> keys = value.Split( ',' ).ToList();
+                        app1.SetArgumentKeys( keys );
+                    }
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
+                },
+                ( string error ) =>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            //App1 - Argument Values
+            ConfigManager.GetNestedString
+            (
+                configSystem_app1,
+                new string[ ]
+                {
+                    "app",
+                    "argumentValues"
+                },
+                ( string value ) =>
+                {
+                    if(!string.IsNullOrEmpty( value ))
+                    {
+                        //Split the comma deliminated string into a List<string>
+                        List<string> values = value.Split( ',' ).ToList();
+                        app1.SetArgumentValues( values );
+                    }
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
+                },
+                ( string error ) =>
                 {
                     Debug.LogError( error );
                 }
@@ -127,15 +268,21 @@ namespace gambit.launcher
             //App2 - Name
             ConfigManager.GetNestedString
             (
-                configSystem,
+                configSystem_app2,
                 new string[ ]
                 {
-                    "app2",
+                    "app",
                     "name"
                 },
                 ( string name ) =>
                 {
                     app2.SetText( name );
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
                 },
                 ( string error ) =>
                 {
@@ -146,16 +293,81 @@ namespace gambit.launcher
             //App2 - Path
             ConfigManager.GetNestedPath
             (
-                configSystem,
+                configSystem_app2,
                 new string[ ]
                 {
-                    "app2",
+                    "app",
                     "path"
                 },
                 ( string path ) =>
                 {
-                    app2.path = path;
-                    app2.CreateSystem();
+                    app2.SetPath( path );
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
+                },
+                ( string error ) =>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            //App2 - Argument Keys
+            ConfigManager.GetNestedString
+            (
+                configSystem_app2,
+                new string[ ]
+                {
+                    "app",
+                    "argumentKeys"
+                },
+                ( string value ) =>
+                {
+                    if(!string.IsNullOrEmpty( value ))
+                    {
+                        //Split the comma deliminated string into a List<string>
+                        List<string> keys = value.Split( ',' ).ToList();
+                        app2.SetArgumentKeys( keys );
+                    }
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
+                },
+                ( string error ) =>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            //App2 - Argument Values
+            ConfigManager.GetNestedString
+            (
+                configSystem_app2,
+                new string[ ]
+                {
+                    "app",
+                    "argumentValues"
+                },
+                ( string value ) =>
+                {
+                    if(!string.IsNullOrEmpty( value ))
+                    {
+                        //Split the comma deliminated string into a List<string>
+                        List<string> values = value.Split( ',' ).ToList();
+                        app2.SetArgumentValues( values );
+                    }
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
                 },
                 ( string error ) =>
                 {
@@ -164,6 +376,23 @@ namespace gambit.launcher
             );
 
         } //END GetVariablesFromConfig Method
+
+        #endregion
+
+        #region PRIVATE - CREATE PROCESS SYSTEMS
+
+        /// <summary>
+        /// After all the variables are pulled from the config, we can create the process systems
+        /// </summary>
+        //--------------------------------------//
+        private void CreateProcessSystem()
+        //--------------------------------------//
+        {
+
+            app1.CreateSystem();
+            app2.CreateSystem();
+
+        } //END CreateProcessSystem Method
 
         #endregion
 

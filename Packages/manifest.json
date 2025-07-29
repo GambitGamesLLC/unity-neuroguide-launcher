@@ -5,6 +5,7 @@
     "com.gambit.process": "https://github.com/GambitGamesLLC/unity-process-manager.git?path=Assets/Plugins/Package",
     "com.gambit.singleton": "https://github.com/GambitGamesLLC/unity-singleton.git?path=Assets/Plugins/Package",
     "com.gambit.staticcoroutine": "https://github.com/GambitGamesLLC/unity-static-Coroutine.git?path=Assets/Plugins/Package",
+    "com.gilzoide.rounded-corners": "https://github.com/gilzoide/unity-rounded-corners.git#1.0.0",
     "com.leguar.totaljson": "https://github.com/GambitGamesLLC/unity-plugin-totaljson.git?path=Assets/Plugins/Package",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.7",

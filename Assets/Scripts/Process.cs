@@ -26,7 +26,7 @@ namespace gambit.launcher
     {
         #region PUBLIC - VARIABLES
 
-        public TextMeshPro text;
+        public TextMeshProUGUI text;
 
         /// <summary>
         /// The Process Manager System returned after CreateSystem()
@@ -36,18 +36,17 @@ namespace gambit.launcher
         /// <summary>
         /// Path to the process to call
         /// </summary>
-        [NonSerialized]
-        public string path;
+        private string path;
 
         /// <summary>
         /// Process argument keys
         /// </summary>
-        public List<string> argumentKeys;
+        private List<string> argumentKeys;
 
         /// <summary>
         /// Process argument values
         /// </summary>
-        public List<string> argumentValues;
+        private List<string> argumentValues;
 
         /// <summary>
         /// The duration of the fade in tween used when the process starts
@@ -60,21 +59,6 @@ namespace gambit.launcher
         public float fadeOutDuration;
 
         public List<Button> buttonsToSetInteractable;
-
-        #endregion
-
-        #region PUBLIC - START
-
-        /// <summary>
-        /// Unity lifecycle method
-        /// </summary>
-        //------------------------------//
-        public void Start()
-        //------------------------------//
-        {
-            //CreateSystem();
-
-        } //END Start Method
 
         #endregion
 
@@ -193,9 +177,63 @@ namespace gambit.launcher
         public void SetText( string _text )
         //--------------------------------------//
         {
+            if(text == null)
+            {
+                Debug.LogError( "Process.cs SetText() TextMeshPro 'text' component is null, unable to continue" );
+                return;
+            }
+
             text.SetText( _text );
 
         } //END SetText Method
+
+        #endregion
+
+        #region PRIVATE - SET PATH
+
+        /// <summary>
+        /// Sets the path of the process
+        /// </summary>
+        /// <param name="value"></param>
+        //--------------------------------------//
+        public void SetPath( string value )
+        //--------------------------------------//
+        {
+            path = value;
+
+        } //END SetPath Method
+
+        #endregion
+
+        #region PRIVATE - SET ARGUMENT KEYS
+
+        /// <summary>
+        /// Sets the argument keys passed in when launching the process
+        /// </summary>
+        /// <param name="_text"></param>
+        //--------------------------------------//
+        public void SetArgumentKeys( List<string> keys )
+        //--------------------------------------//
+        {
+            argumentKeys = keys;
+
+        } //END SetArgumentKeys Method
+
+        #endregion
+
+        #region PRIVATE - SET ARGUMENT VALUES
+
+        /// <summary>
+        /// Sets the argument values passed in when launching the process
+        /// </summary>
+        /// <param name="_text"></param>
+        //--------------------------------------//
+        public void SetArgumentValues( List<string> values )
+        //--------------------------------------//
+        {
+            argumentValues = values;
+
+        } //END SetArgumentValues Method
 
         #endregion
 

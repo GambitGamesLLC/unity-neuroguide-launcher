@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "469ea45509501f78159107d93416fd7587d43b90"
+      "hash": "a99d94e436e0d2c2a72eabf9195f5198aba78682"
     },
     "com.gambit.process": {
       "version": "https://github.com/GambitGamesLLC/unity-process-manager.git?path=Assets/Plugins/Package",
@@ -34,6 +34,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "2301f2ab846e5a96922247c3026f0830dfe19dee"
+    },
+    "com.gilzoide.rounded-corners": {
+      "version": "https://github.com/gilzoide/unity-rounded-corners.git#1.0.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "3cf2c6a1d9b7024566b50921a82cbc21caf3f61c"
     },
     "com.leguar.totaljson": {
       "version": "https://github.com/GambitGamesLLC/unity-plugin-totaljson.git?path=Assets/Plugins/Package",
