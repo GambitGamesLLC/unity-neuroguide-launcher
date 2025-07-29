@@ -41,12 +41,12 @@ namespace gambit.launcher
         /// <summary>
         /// Process argument keys
         /// </summary>
-        private List<string> argumentKeys;
+        private List<string> argumentKeys = new List<string>();
 
         /// <summary>
         /// Process argument values
         /// </summary>
-        private List<string> argumentValues;
+        private List<string> argumentValues = new List<string>();
 
         /// <summary>
         /// The duration of the fade in tween used when the process starts
@@ -76,6 +76,7 @@ namespace gambit.launcher
             ProcessManager.Options options = new ProcessManager.Options();
             options.path = path;
             options.argumentKeys = argumentKeys;
+            options.argumentValues = argumentValues;
             options.showDebugLogs = false;
 
             ProcessManager.Create
@@ -123,6 +124,23 @@ namespace gambit.launcher
         public void Launch()
         //---------------------------------//
         {
+            if(system == null)
+            {
+                Debug.LogError( "Process.cs Launch() system is null. Unable to continue" );
+                return;
+            }
+
+            Debug.Log( "----------------------------------------- \n -------------------------------------------------" );
+            foreach(string key in system.options.argumentKeys)
+            {
+                Debug.Log( "key: " + key );
+            }
+            Debug.Log( "----------------------------------------- \n -------------------------------------------------" );
+            foreach(string value in system.options.argumentValues)
+            {
+                Debug.Log( "value: " + value );
+            }
+            Debug.Log( "----------------------------------------- \n -------------------------------------------------" );
 
             ProcessManager.LaunchProcess
             ( 
@@ -202,6 +220,74 @@ namespace gambit.launcher
             path = value;
 
         } //END SetPath Method
+
+        #endregion
+
+        #region PRIVATE - ADD ARGUMENT KEY
+
+        /// <summary>
+        /// Adds a argument key passed in when launching the process
+        /// </summary>
+        //--------------------------------------//
+        public void AddArgumentKey( List<string> keys )
+        //--------------------------------------//
+        {
+            if( keys == null || ( keys != null && keys.Count == 0 ) )
+            {
+                return;
+            }
+
+            foreach(string key in keys)
+            {
+                AddArgumentKey( key );
+            }
+
+        } //END AddArgumentKey Method
+
+        /// <summary>
+        /// Adds a argument key passed in when launching the process
+        /// </summary>
+        //--------------------------------------//
+        public void AddArgumentKey( string key )
+        //--------------------------------------//
+        {
+            argumentKeys.Add( key );
+
+        } //END AddArgumentKey Method
+
+        #endregion
+
+        #region PRIVATE - ADD ARGUMENT VALUE
+
+        /// <summary>
+        /// Adds a argument value passed in when launching the process
+        /// </summary>
+        //--------------------------------------//
+        public void AddArgumentValue( List<string> values )
+        //--------------------------------------//
+        {
+            if(values == null || (values != null && values.Count == 0))
+            {
+                return;
+            }
+
+            foreach(string value in values)
+            {
+                AddArgumentValue( value );
+            }
+
+        } //END AddArgumentValue Method
+
+        /// <summary>
+        /// Adds a argument value passed in when launching the process
+        /// </summary>
+        //--------------------------------------//
+        public void AddArgumentValue( string value )
+        //--------------------------------------//
+        {
+            argumentValues.Add( value );
+
+        } //END AddArgumentValue Method
 
         #endregion
 

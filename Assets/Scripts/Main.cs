@@ -3,6 +3,8 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using System;
+
 
 #if GAMBIT_CONFIG
 using gambit.config;
@@ -153,8 +155,75 @@ namespace gambit.launcher
         //----------------------------------------//
         {
             int count = 0;
-            int total = 8;
+            int total = 10;
 
+            //Communication - Address
+            ConfigManager.GetNestedString
+            (
+                configSystem_launcher,
+                new string[ ]
+                {
+                    "communication",
+                    "address"
+                },
+                ( string value ) =>
+                {
+                    //Debug.Log( value );
+                    app1.AddArgumentKey( "address" );
+                    app1.AddArgumentValue( value );
+
+                    app2.AddArgumentKey( "address" );
+                    app2.AddArgumentValue( value );
+
+                    count++;
+                    if(count == total)
+                    {
+                        CreateProcessSystem();
+                    }
+                },
+                ( string error ) =>
+                {
+                    Debug.LogError( error );
+                }
+            );
+
+            //Communication - Port
+            ConfigManager.GetNestedInteger
+            (
+                configSystem_launcher,
+                new string[ ]
+                {
+                    "communication",
+                    "port"
+                },
+                ( int value ) =>
+                {
+                    try
+                    {
+                        //Debug.Log( value );
+                        app1.AddArgumentKey( "port" );
+                        app1.AddArgumentValue( value.ToString() );
+
+                        app2.AddArgumentKey( "port" );
+                        app2.AddArgumentValue( value.ToString() );
+
+                        count++;
+                        if(count == total)
+                        {
+                            CreateProcessSystem();
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.LogError ( e );
+                    }
+                },
+                ( string error ) =>
+                {
+                    Debug.LogError( error );
+                }
+            );
+            
             //App1 - Name
             ConfigManager.GetNestedString
             (
@@ -204,7 +273,7 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-
+            
             //App1 - Argument Keys
             ConfigManager.GetNestedString
             (
@@ -220,7 +289,7 @@ namespace gambit.launcher
                     {
                         //Split the comma deliminated string into a List<string>
                         List<string> keys = value.Split( ',' ).ToList();
-                        app1.SetArgumentKeys( keys );
+                        app1.AddArgumentKey( keys );
                     }
 
                     count++;
@@ -250,7 +319,7 @@ namespace gambit.launcher
                     {
                         //Split the comma deliminated string into a List<string>
                         List<string> values = value.Split( ',' ).ToList();
-                        app1.SetArgumentValues( values );
+                        app1.AddArgumentValue( values );
                     }
 
                     count++;
@@ -264,7 +333,7 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-
+            
             //App2 - Name
             ConfigManager.GetNestedString
             (
@@ -314,7 +383,7 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-
+            
             //App2 - Argument Keys
             ConfigManager.GetNestedString
             (
@@ -330,7 +399,7 @@ namespace gambit.launcher
                     {
                         //Split the comma deliminated string into a List<string>
                         List<string> keys = value.Split( ',' ).ToList();
-                        app2.SetArgumentKeys( keys );
+                        app2.AddArgumentKey( keys );
                     }
 
                     count++;
@@ -360,7 +429,7 @@ namespace gambit.launcher
                     {
                         //Split the comma deliminated string into a List<string>
                         List<string> values = value.Split( ',' ).ToList();
-                        app2.SetArgumentValues( values );
+                        app2.AddArgumentValue( values );
                     }
 
                     count++;
@@ -374,7 +443,7 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-
+            
         } //END GetVariablesFromConfig Method
 
         #endregion
