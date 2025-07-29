@@ -7,7 +7,8 @@
 	"app": {
 		"name": "Brain Waves",
 		"path": "%LOCALAPPDATA%\\M3DVR\\BrainWaves\\BrainWaves.exe",
-		"argumentKeys": "length, debug",
-		"argumentValues": "5, true"
+		"length": 5,
+		"debug": true,
+		"logs": true
 	}
 }

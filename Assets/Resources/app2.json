@@ -7,7 +7,8 @@
 	"app": {
 		"name": "Tesseract",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Tesseract\\Tesseract.exe",
-		"argumentKeys": "length, debug",
-		"argumentValues": "5, true"
+		"length": 5,
+		"debug": true,
+		"logs": true
 	}
 }

@@ -25,14 +25,18 @@ namespace gambit.launcher
         public float fadeInDuration;
 
         /// <summary>
-        /// The process handler script used to manage the process for app1
+        /// The processes handlers we pass values into from our config.json
         /// </summary>
-        public Process app1;
+        public List<Process> processes = new List<Process>();
 
         /// <summary>
-        /// The process handler script used to manage the process for app2
+        /// The names of the config files to locate in our resources folder
         /// </summary>
-        public Process app2;
+        private List<string> appConfigFileNames = new List<string>() 
+        { 
+            "app1",
+            "app2"
+        };
 
         #endregion
 
@@ -44,14 +48,9 @@ namespace gambit.launcher
         private ConfigManager.ConfigManagerSystem configSystem_launcher;
 
         /// <summary>
-        /// Config Manager System for the app1 config file
+        /// The config systems we create to pull our json config files
         /// </summary>
-        private ConfigManager.ConfigManagerSystem configSystem_app1;
-
-        /// <summary>
-        /// Config Manager System for the app2 config file
-        /// </summary>
-        private ConfigManager.ConfigManagerSystem configSystem_app2;
+        private List<ConfigManager.ConfigManagerSystem> configSystem_apps = new List<ConfigManager.ConfigManagerSystem>();
 
         #endregion
 
@@ -64,6 +63,12 @@ namespace gambit.launcher
         public void Start()
         //----------------------------------//
         {
+            if(processes == null || ( processes != null && processes.Count == 0 ))
+            {
+                Debug.LogError( "Main.cs Start() processes handler links are not setup. Unable to continue" );
+                return;
+            }
+
             FadeManager.Fade( 0f, fadeInDuration );
 
             int count = 0;
@@ -93,53 +98,32 @@ namespace gambit.launcher
                 }
             );
 
-            ConfigManager.UpdateLocalDataAndReturn
-            (
-                "app1",
-                true,
+            foreach( string appConfigFileName in appConfigFileNames )
+            {
+                ConfigManager.UpdateLocalDataAndReturn
+                (
+                    appConfigFileName,
+                    true,
 
-                //ON SUCCESS
-                ( ConfigManager.ConfigManagerSystem _system ) =>
-                {
-                    configSystem_app1 = _system;
-
-                    count++;
-                    if(count == total)
+                    //ON SUCCESS
+                    ( ConfigManager.ConfigManagerSystem _system ) =>
                     {
-                        GetVariablesFromConfig();
-                    }
-                },
+                        configSystem_apps.Add( _system );
 
-                //ON FAILED
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
+                        count++;
+                        if(count == total)
+                        {
+                            GetVariablesFromConfig();
+                        }
+                    },
 
-            ConfigManager.UpdateLocalDataAndReturn
-            (
-                "app2",
-                true,
-
-                //ON SUCCESS
-                ( ConfigManager.ConfigManagerSystem _system ) =>
-                {
-                    configSystem_app2 = _system;
-
-                    count++;
-                    if(count == total)
+                    //ON FAILED
+                    ( string error ) =>
                     {
-                        GetVariablesFromConfig();
+                        Debug.LogError( error );
                     }
-                },
-
-                //ON FAILED
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
+                );
+            }
 
         } //END Start
 
@@ -168,12 +152,11 @@ namespace gambit.launcher
                 },
                 ( string value ) =>
                 {
-                    //Debug.Log( value );
-                    app1.AddArgumentKey( "address" );
-                    app1.AddArgumentValue( value );
-
-                    app2.AddArgumentKey( "address" );
-                    app2.AddArgumentValue( value );
+                    foreach( Process process in processes)
+                    {
+                        process.AddArgumentKey( "address" );
+                        process.AddArgumentValue( value );
+                    }
 
                     count++;
                     if(count == total)
@@ -200,12 +183,11 @@ namespace gambit.launcher
                 {
                     try
                     {
-                        //Debug.Log( value );
-                        app1.AddArgumentKey( "port" );
-                        app1.AddArgumentValue( value.ToString() );
-
-                        app2.AddArgumentKey( "port" );
-                        app2.AddArgumentValue( value.ToString() );
+                        foreach(Process process in processes)
+                        {
+                            process.AddArgumentKey( "port" );
+                            process.AddArgumentValue( value.ToString() );
+                        }
 
                         count++;
                         if(count == total)
@@ -223,7 +205,12 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-            
+
+            foreach(ConfigManager.ConfigManagerSystem system in configSystem_apps)
+            {
+
+            }
+
             //App1 - Name
             ConfigManager.GetNestedString
             (
@@ -273,54 +260,20 @@ namespace gambit.launcher
                     Debug.LogError( error );
                 }
             );
-            
-            //App1 - Argument Keys
-            ConfigManager.GetNestedString
+
+            //App1 - Length
+            ConfigManager.GetNestedFloat
             (
                 configSystem_app1,
                 new string[ ]
                 {
                     "app",
-                    "argumentKeys"
+                    "path"
                 },
-                ( string value ) =>
+                ( float value ) =>
                 {
-                    if( !string.IsNullOrEmpty( value ) )
-                    {
-                        //Split the comma deliminated string into a List<string>
-                        List<string> keys = value.Split( ',' ).ToList();
-                        app1.AddArgumentKey( keys );
-                    }
-
-                    count++;
-                    if(count == total)
-                    {
-                        CreateProcessSystem();
-                    }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
-
-            //App1 - Argument Values
-            ConfigManager.GetNestedString
-            (
-                configSystem_app1,
-                new string[ ]
-                {
-                    "app",
-                    "argumentValues"
-                },
-                ( string value ) =>
-                {
-                    if(!string.IsNullOrEmpty( value ))
-                    {
-                        //Split the comma deliminated string into a List<string>
-                        List<string> values = value.Split( ',' ).ToList();
-                        app1.AddArgumentValue( values );
-                    }
+                    app1.AddArgumentKey( "length" );
+                    app1.AddArgumentValue( value.ToString() );
 
                     count++;
                     if(count == total)
@@ -385,65 +338,6 @@ namespace gambit.launcher
                 }
             );
             
-            //App2 - Argument Keys
-            ConfigManager.GetNestedString
-            (
-                configSystem_app2,
-                new string[ ]
-                {
-                    "app",
-                    "argumentKeys"
-                },
-                ( string value ) =>
-                {
-                    if(!string.IsNullOrEmpty( value ))
-                    {
-                        //Split the comma deliminated string into a List<string>
-                        List<string> keys = value.Split( ',' ).ToList();
-                        app2.AddArgumentKey( keys );
-                    }
-
-                    count++;
-                    if(count == total)
-                    {
-                        CreateProcessSystem();
-                    }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
-
-            //App2 - Argument Values
-            ConfigManager.GetNestedString
-            (
-                configSystem_app2,
-                new string[ ]
-                {
-                    "app",
-                    "argumentValues"
-                },
-                ( string value ) =>
-                {
-                    if(!string.IsNullOrEmpty( value ))
-                    {
-                        //Split the comma deliminated string into a List<string>
-                        List<string> values = value.Split( ',' ).ToList();
-                        app2.AddArgumentValue( values );
-                    }
-
-                    count++;
-                    if(count == total)
-                    {
-                        CreateProcessSystem();
-                    }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
 
 
         } //END GetVariablesFromConfig Method
