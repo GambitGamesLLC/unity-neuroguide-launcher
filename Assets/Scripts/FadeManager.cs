@@ -80,6 +80,7 @@ namespace gambit.launcher
             }
 
 #if EXT_DOTWEEN
+            image.DOKill();
             image.DOFade( opacity, duration ).OnComplete( ()=> { OnComplete?.Invoke(); } );
 #endif
 
