@@ -69,6 +69,15 @@ namespace gambit.launcher
                 return;
             }
 
+            foreach( Process process in processes )
+            {
+                if(string.IsNullOrEmpty( process.id ))
+                {
+                    Debug.LogError( "Main.cs Start() process missing id, make sure each process has an id used to identify and set its values using the configuration json file" );
+                    return;
+                }
+            }
+
             FadeManager.Fade( 0f, fadeInDuration );
 
             int count = 0;
@@ -108,6 +117,7 @@ namespace gambit.launcher
                     //ON SUCCESS
                     ( ConfigManager.ConfigManagerSystem _system ) =>
                     {
+                        _system.id = appConfigFileName;
                         configSystem_apps.Add( _system );
 
                         count++;
@@ -139,7 +149,7 @@ namespace gambit.launcher
         //----------------------------------------//
         {
             int count = 0;
-            int total = 10;
+            int total = 2 + (configSystem_apps.Count * 3);
 
             //Communication - Address
             ConfigManager.GetNestedString
@@ -206,138 +216,105 @@ namespace gambit.launcher
                 }
             );
 
+            //For each 'app' json configuration file
             foreach(ConfigManager.ConfigManagerSystem system in configSystem_apps)
             {
+                Process process = null;
 
-            }
-
-            //App1 - Name
-            ConfigManager.GetNestedString
-            (
-                configSystem_app1,
-                new string[ ]
+                //Find the proper process that matches the id of the config, so we know the config data is for this process
+                foreach(Process currentProcess in processes)
                 {
+                    if(currentProcess.id == system.id)
+                    {
+                        process = currentProcess;
+                    }
+                }
+
+                //If we didn't find the proper process that matches this config system, then something is very wrong!
+                if(process == null)
+                {
+                    Debug.LogError( "Main.cs GetVariablesFromConfig() one of our config json files has an id that doesn't match any process! Unable to continue" );
+                    return;
+                }
+
+                //app/name
+                ConfigManager.GetNestedString
+                (
+                    system,
+                    new string[ ]
+                    {
                     "app",
                     "name"
-                },
-                ( string value ) =>
-                {
-                    app1.SetText( value );
-
-                    count++;
-                    if( count == total )
+                    },
+                    ( string value ) =>
                     {
-                        CreateProcessSystem();
-                    }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
+                        //Once we have the app name, proceed to grab all of the data we need for this app and set the process accordingly
+                        process.SetText( value );
 
-            //App1 - Path
-            ConfigManager.GetNestedPath
-            (
-                configSystem_app1,
-                new string[ ] 
-                {
+                        count++;
+                        if(count == total)
+                        {
+                            CreateProcessSystem();
+                        }
+                    },
+                    ( string error ) =>
+                    {
+                        Debug.LogError( error );
+                    }
+                );
+
+                //app/path
+                ConfigManager.GetNestedPath
+                (
+                    system,
+                    new string[ ]
+                    {
                     "app",
                     "path"
-                },
-                (string path)=>
-                {
-                    app1.SetPath( path );
-
-                    count++;
-                    if(count == total)
+                    },
+                    ( string path ) =>
                     {
-                        CreateProcessSystem();
-                    }
-                },
-                (string error)=>
-                {
-                    Debug.LogError( error );
-                }
-            );
+                        process.SetPath( path );
 
-            //App1 - Length
-            ConfigManager.GetNestedFloat
-            (
-                configSystem_app1,
-                new string[ ]
-                {
+                        count++;
+                        if(count == total)
+                        {
+                            CreateProcessSystem();
+                        }
+                    },
+                    ( string error ) =>
+                    {
+                        Debug.LogError( error );
+                    }
+                );
+
+                //app/length
+                ConfigManager.GetNestedFloat
+                (
+                    system,
+                    new string[ ]
+                    {
                     "app",
-                    "path"
-                },
-                ( float value ) =>
-                {
-                    app1.AddArgumentKey( "length" );
-                    app1.AddArgumentValue( value.ToString() );
-
-                    count++;
-                    if(count == total)
+                    "length"
+                    },
+                    ( float value ) =>
                     {
-                        CreateProcessSystem();
-                    }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
+                        process.AddArgumentKey( "length" );
+                        process.AddArgumentValue( value.ToString() );
 
-
-            //App2 - Name
-            ConfigManager.GetNestedString
-            (
-                configSystem_app2,
-                new string[ ]
-                {
-                    "app",
-                    "name"
-                },
-                ( string name ) =>
-                {
-                    app2.SetText( name );
-
-                    count++;
-                    if(count == total)
+                        count++;
+                        if(count == total)
+                        {
+                            CreateProcessSystem();
+                        }
+                    },
+                    ( string error ) =>
                     {
-                        CreateProcessSystem();
+                        Debug.LogError( error );
                     }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
+                );
 
-            //App2 - Path
-            ConfigManager.GetNestedPath
-            (
-                configSystem_app2,
-                new string[ ]
-                {
-                    "app",
-                    "path"
-                },
-                ( string path ) =>
-                {
-                    app2.SetPath( path );
-
-                    count++;
-                    if(count == total)
-                    {
-                        CreateProcessSystem();
-                    }
-                },
-                ( string error ) =>
-                {
-                    Debug.LogError( error );
-                }
-            );
-            
+            } //end of process foreach
 
 
         } //END GetVariablesFromConfig Method

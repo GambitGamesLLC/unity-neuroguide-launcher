@@ -26,6 +26,11 @@ namespace gambit.launcher
     {
         #region PUBLIC - VARIABLES
 
+        /// <summary>
+        /// Identifier used to check if we're using the right process script when passing in values from our configuration json
+        /// </summary>
+        public string id = "";
+
         public TextMeshProUGUI text;
 
         /// <summary>
