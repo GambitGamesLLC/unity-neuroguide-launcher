@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using System.Linq;
 
 #if GAMBIT_PROCESS
 using gambit.process;
@@ -31,7 +32,10 @@ namespace gambit.launcher
         /// </summary>
         public string id = "";
 
-        public TextMeshProUGUI text;
+        /// <summary>
+        /// The label that displays the name of the app to launch
+        /// </summary>
+        private TextMeshProUGUI text;
 
         /// <summary>
         /// The Process Manager System returned after CreateSystem()
@@ -56,14 +60,48 @@ namespace gambit.launcher
         /// <summary>
         /// The duration of the fade in tween used when the process starts
         /// </summary>
+        [NonSerialized]
         public float fadeInDuration;
 
         /// <summary>
         /// The duration of the fade out tween used when the process ends
         /// </summary>
+        [NonSerialized]
         public float fadeOutDuration;
 
-        public List<Button> buttonsToSetInteractable;
+        /// <summary>
+        /// The button that launches this process when pressed
+        /// </summary>
+        private Button button;
+
+        /// <summary>
+        /// The UGUI buttons you want to disable and enable when transitioning to and from the process
+        /// </summary>
+        private List<Button> buttonsToSetInteractable;
+
+        #endregion
+
+        #region PUBLIC - AWAKE
+
+        /// <summary>
+        /// Unity lifecycle method
+        /// </summary>
+        //----------------------------------//
+        public void Awake()
+        //----------------------------------//
+        {
+            //The button should be on the root GameObject for this process handler script
+            button = GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener( Launch );
+
+            //Find all the buttons we want to enable/disable while transitioning
+            buttonsToSetInteractable = FindObjectsByType<Button>( FindObjectsSortMode.None ).ToList();
+
+            //Find the text component child
+            text = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+
+        } //END Awake Method
 
         #endregion
 
