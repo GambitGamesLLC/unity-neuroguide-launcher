@@ -9,6 +9,7 @@
 		"path": "%LOCALAPPDATA%\\M3DVR\\Tesseract\\Tesseract.exe",
 		"length": 5,
 		"debug": true,
-		"logs": true
+		"logs": true,
+		"threshold": 0.9
 	}
 }

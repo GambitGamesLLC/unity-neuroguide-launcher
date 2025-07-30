@@ -205,7 +205,7 @@ namespace gambit.launcher
         //----------------------------------------//
         {
             int count = 0;
-            int total = 2 + (configSystem_apps.Count * 5);
+            int total = 2 + (configSystem_apps.Count * 6);
 
             //There are some pieces of data that need to be sent into each process, such as the udp address and port
 
@@ -400,7 +400,7 @@ namespace gambit.launcher
                     }
                 );
 
-                //app/debug
+                //app/logs
                 ConfigManager.GetNestedBool
                 (
                     system,
@@ -412,6 +412,32 @@ namespace gambit.launcher
                     ( bool value ) =>
                     {
                         process.AddArgumentKey( "logs" );
+                        process.AddArgumentValue( value.ToString() );
+
+                        count++;
+                        if(count == total)
+                        {
+                            CreateProcessSystem();
+                        }
+                    },
+                    ( string error ) =>
+                    {
+                        Debug.LogError( error );
+                    }
+                );
+
+                //app/threshold
+                ConfigManager.GetNestedFloat
+                (
+                    system,
+                    new string[ ]
+                    {
+                    "app",
+                    "threshold"
+                    },
+                    ( float value ) =>
+                    {
+                        process.AddArgumentKey( "threshold" );
                         process.AddArgumentValue( value.ToString() );
 
                         count++;
