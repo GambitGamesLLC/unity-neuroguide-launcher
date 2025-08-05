@@ -1,0 +1,15 @@
+{
+	"config": {
+		"version": 1,
+		"timestamp": "2025-07-28 12:00:00",
+		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\Flow.json"
+	},
+	"app": {
+		"name": "Flow",
+		"path": "%LOCALAPPDATA%\\M3DVR\\Flow\\Flow.exe",
+		"length": 2,
+		"debug": true,
+		"logs": false,
+		"threshold": 0.9
+	}
+}

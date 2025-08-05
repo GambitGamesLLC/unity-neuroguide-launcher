@@ -29,15 +29,6 @@ namespace gambit.launcher
         public float fadeOutDuration;
 
         /// <summary>
-        /// The names of the config files to locate in our resources folder
-        /// </summary>
-        private List<string> appConfigFileNames = new List<string>() 
-        { 
-            "BrainWaves",
-            "Tesseract"
-        };
-
-        /// <summary>
         /// The root GameObject of the button that will launch an application process
         /// </summary>
         public List<GameObject> processButtons = new List<GameObject>();
@@ -45,6 +36,15 @@ namespace gambit.launcher
         #endregion
 
         #region PRIVATE - VARIABLES
+
+        /// <summary>
+        /// The names of the config files to locate in our resources folder
+        /// </summary>
+        private List<string> appConfigFileNames = new List<string>()
+        {
+            "Flow",
+            "Energy"
+        };
 
         /// <summary>
         /// The processes handlers we pass values into from our config.json.
