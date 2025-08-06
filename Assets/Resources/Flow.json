@@ -10,6 +10,6 @@
 		"length": 2,
 		"debug": true,
 		"logs": false,
-		"threshold": 0.9
+		"threshold": 0.8
 	}
 }
