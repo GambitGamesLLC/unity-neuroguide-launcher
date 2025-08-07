@@ -1,7 +1,9 @@
 # unity-neuroguide-launcher
 Unity3D project that launches the processes for NeuroGuide experiences
 
-This application, along with the child apps that it launches, need to be placed within the `%LOCALAPPDATA%` path on your Windows PC.
+This launcher, is intended to be started from the external NeuroGuide software. In order for this to happen, our `Launcher.exe` need to be placed in the appropriate location in `%LOCALAPPDATA%\M3DVR\Launcher\Launcher.exe`. There must also be a `config.json` file located at the same folder. Once you've made a build, run it once to generate the `config.json` file at the appropriate location.
+
+The NueroGuide experience apps that this launcher runs, also need to be within the `%LOCALAPPDATA%\M3DVR\` path on your Windows PC, within their own respective folders. Check each applications repository readme files for more information.
 
 Please refer to the official [Neuroguide Launcher Installation Guide](https://docs.google.com/document/d/1LlBwy8y8CJdUcBKdF3T6FI2JTMg8hdeoMj30FSdo1g0/edit?usp=sharing) for details on the steps to installing a build on a PC.
 
