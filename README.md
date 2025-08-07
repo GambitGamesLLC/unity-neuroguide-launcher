@@ -35,7 +35,10 @@ Please refer to the official [Neuroguide Launcher Installation Guide](https://do
 
 ## LAUNCHER CONFIGURATION FILE INSTRUCTIONS
 
-There are multiple configuration .json files located within the Resources folder. Let's cover the `config.json` file first.
+There are multiple configuration .json files located within the Resources folder. 
+
+- This readme covers only the `config.json` file
+- Each NeuroGuide experience app repository contains its own documentation on their own configuration .json file.
 
 - `config.json` - Used by the NeuroGuide application that starts this Launcher.
 
@@ -90,6 +93,8 @@ There are multiple configuration .json files located within the Resources folder
 You can find the description of each experience configuration .json file within the repositories readme files.
 
 The values within the config files are passed to each NeuroGuide experience using the command line communication system within the [unity-process-manager](https://github.com/GambitGamesLLC/unity-process-manager) package.
+
+---  
 
 ## DEPENDENCIES
 
