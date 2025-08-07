@@ -7,6 +7,8 @@ The NueroGuide experience apps that this launcher runs, also need to be within t
 
 Please refer to the official [Neuroguide Launcher Installation Guide](https://docs.google.com/document/d/1LlBwy8y8CJdUcBKdF3T6FI2JTMg8hdeoMj30FSdo1g0/edit?usp=sharing) for details on the steps to installing a build on a PC.
 
+For future reference, this launcher application was designed to communicate with the NeuroGuide software, controlled by an external 3rd party. To do this, the NeuroGuide software runs the process for this launcher. In order to find the launcher, as well as several other pieces of key information, the NeuroGuide software developer agreed to a communication system between our apps. You can read about this proposal via the [communication proposal doc](https://docs.google.com/document/d/1wguYZfT5Fcz-on_hkHSjUgK3602aVeyGTMRHOxg3Ano/edit?usp=sharing). But to sum it up, NeuroGuide is expecting our launcher to exist at a path in the `%LOCALAPPDATA`, and a `config.json` file to exist there as well. From there there are `communication` variables used by NeuroGuide and the apps this launcher starts to handle data communication between them via the UDP protocol. 
+
 <img width="727" height="406" alt="image" src="https://github.com/user-attachments/assets/ff08eb7c-9791-4753-af03-d08b5eb416fa" />
 
 ---
@@ -32,6 +34,7 @@ Please refer to the official [Neuroguide Launcher Installation Guide](https://do
 - No special build instructions, simply make a Windows desktop build
 - Your build location needs to be `%LocalAppData%\M3DVR\Launcher`
 - This location follows the expected path that the NeuroGuide application from Nestre will expect to find the Launcher and the `config.json` file within the same folder.
+- Once you've made a build, run it once to generate the `config.json` file at the path specified within the `config.json` file that exists in the project Resources folder.
 
 ---  
 
