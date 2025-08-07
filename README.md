@@ -33,52 +33,63 @@ Please refer to the official [Neuroguide Launcher Installation Guide](https://do
 
 ---  
 
-## CONFIGURATION FILE INSTRUCTIONS
+## LAUNCHER CONFIGURATION FILE INSTRUCTIONS
 
-You can find the appropriate `configuration json` file within the Resources folder of the [unity-neuroguide-launcher](https://github.com/GambitGamesLLC/unity-neuroguide-launcher). 
-This configuration file only exists as part of that repository and is not stored in this one.
+There are multiple configuration .json files located within the Resources folder. Let's cover the `config.json` file first.
 
-**If this app is run via the NeuroGuide launcher, it will use the data passed to it by the Launcher, which comes from a configuration .json file**
+- `config.json` - Used by the NeuroGuide application that starts this Launcher.
 
-- A `configuration json` file is stored in our Resources folder of the NeuroGuide Launcher project, and can be updated to modify the application  
-- This `configuration json` file is copied to our `%LOCALAPPDATA%` folder, specifically in the path specified in the `config:path` object  
-- If there already exists a `configuration json` at the specified path, we will compare it against the one in the Resources folder. If the local file is out of date or missing, it will be written using the version in Resources.
-- It is recommended to have the configuration file that's copied to your `%LOCALAPPDATA%` folder stay at a higher version number than the file inside of the [unity-neuroguide-launcher](https://github.com/GambitGamesLLC/unity-neuroguide-launcher) Unity Project, that way any changes to the configuration will be used when you restart this experience and the launcher to test the new values.
-- When you have found values you like, its recommended to make those the new defaults within the configuration files in the `Resources` folder of the [unity-neuroguide-launcher](https://github.com/GambitGamesLLC/unity-neuroguide-launcher) project. That way your next build will include them.
-
-- Locate and open the configuration json file within the resources folder, which has contents similar to this
-```json
+```
 {
 	"config": {
-		"version": 2,
+		"version": 1,
 		"timestamp": "2025-07-28 12:00:00",
-		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\Energy.json"
+		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\config.json"
 	},
 	"app": {
-		"name": "Energy",
-		"path": "%LOCALAPPDATA%\\M3DVR\\Energy\\Energy.exe",
-		"length": 3,
-		"debug": true,
-		"logs": false,
-		"threshold": 0.9
+		"longname": "M3DVR NeuroGuide Launcher",
+		"shortname": "Launcher",
+		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\Launcher.exe"
+	},
+	"communication": {
+		"address": "127.0.0.1",
+		"port": 50000
 	}
 }
 ```
-  
+
 <b>`config` OBJECT  </b>
 - `version` - Defines the version number of the configuration file, used to see if this is newer than a config file we're comparing against.  
 - `timestamp` - If the version of both config files matches, we check this timestamp to see if one is newer.  
 - `path` - The path to the config file on local storage. This path has its environment variables expanded and is deserialized, so it can be used for normal Path operations in Unity.  
   
 <b>`app` OBJECT  </b>
-- `name` - Used by external software like the M3DVR Neuroguide launcher app to show the app name in a human readable format  
+- `longname` - Used by external software like the M3DVR Neuroguide launcher app to show the app name in a human readable format
+- `shortname` - Used by external software like the M3DVR Neuroguide launcher app to display the app name in a short human readable format 
 - `path` - The path to the executable for this project. Like other stored Path variables, this will have any environment variables expanded and will be deserialized.  
-- `length` - How long should this experience last (in seconds) if the user was in a "reward" state the entire time?
-- `debug` - Do we want to enable debug mode for this app? This will fake incoming UDP port traffice as if the NeuroGuide Software was sending us messages
-- `logs` - Do we want Unity console logs to be shown in our visual console for debugging?  
-- `threshold` - Normalized 0-1 value representing how far into the experience you need to be before triggering the threshold state of the app. EX: For 0.9, that would be 90% into the experience.
+
+<b>`communication` OBJECT  </b>
+- `address` - The address used by the UDP communication between the NeuroGuide software and the child apps this Launcher runs
+- `port` - The port number used by the UDP communication
+
+- `config.json` file is stored in our Resources folder, and can be updated to modify the default `config.json` that is stored in the `%LOCALAPPDATA%` 
+- This `config.json` file is copied to our `%LOCALAPPDATA%` folder, specifically in the path specified in the `config:path` object  
+- If there already exists a `config.json` at the specified path, we will compare it against the one in the Resources folder. If the local file is out of date or missing, it will be written using the version in Resources.
+- It is recommended to have the configuration file that's copied to your `%LOCALAPPDATA%` folder stay at a higher version number than the file Resources folder, that way any changes to the configuration will be used when you restart the NeuroGuide experience and the launcher to test the new values.
+- When you have found values you like, its recommended to make those the new defaults within the configuration files in the `Resources` folder of the in this project. That way your next build will include them.
 
 ---  
+
+## NEUROGUIDE EXPERIENCE CONFIG FILE INSTRUCTIONS
+
+- Each NeuroGuide experience app has its own configuration .json file in the Resources folder
+- The name of the file should match the name of the experience.
+- If these experience names are updated or there are new experiences added, these configuration files will need to match.
+- In the case of a updated experience name or a new experience being added, you also need to modify the `List<string> appConfigFileNames` inside of `Main.cs` which stores the names of the .json files to locate.
+
+You can find the description of each experience configuration .json file within the repositories readme files.
+
+The values within the config files are passed to each NeuroGuide experience using the command line communication system within the [unity-process-manager](https://github.com/GambitGamesLLC/unity-process-manager) package.
 
 ## DEPENDENCIES
 
@@ -92,21 +103,9 @@ Check the package repos directly for their `scripting define symbols`, `namespac
 - `DoTween` [Gambit Repo](https://github.com/GambitGamesLLC/unity-plugin-dotween) | [Unity Asset Store Link](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)  
 - Used to perform tweens
 
-- `In-game Debug Console` [Unity Asset Store Link](https://assetstore.unity.com/packages/tools/gui/in-game-debug-console-68068)  
-- Used to display an in-game console for debugging purposes when the 'logs' variable is enabled in the Main component or passed in via the Process data system from the Launcher
-
-- `Skybox Series Free` [Unity Asset Store Link](https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633)  
-- Used one of their assets for the skybox, should be removed outside of just what's needed for this project
-
-- `SpaceSkies Free` [Unity Asset Store Link](https://assetstore.unity.com/packages/2d/textures-materials/sky/spaceskies-free-80503)  
-- Used one of their assets for the skybox, should be removed outside of just what's needed for this project
-
 - `Configuration Manager` [Gambit Repo](https://github.com/GambitGamesLLC/unity-config-manager.git?path=Assets/Plugins/Package)  
 - Used for manipulation, saving, and loading of `.json` config files  
 
-- `NeuroGuide Manager` [Gambit Repo](https://github.com/GambitGamesLLC/unity-neuroguide-manager.git)  
-- Reads data from the NeuroGuide Software via UDP ports  
-  
 - `Process Manager` [Gambit Repo](https://github.com/GambitGamesLLC/unity-process-manager)  
 - Allows us to read process command line variables passed in from the NeuroGuide launcher
   
@@ -115,7 +114,12 @@ Check the package repos directly for their `scripting define symbols`, `namespac
   
 - `Singleton Manager` [Gambit Repo](https://github.com/GambitGamesLLC/unity-singleton)
 - Convenience function to easily create global singletons that retain Unity Lifecycle functionality such as a GameObject Instance
+
+- `Static Coroutine` [Gambit Repo](https://github.com/GambitGamesLLC/unity-static-coroutine)
+- Allows for Singletons to use the Unity Coroutine system.
   
 - `TotalJSON` [Gambit Repo](https://github.com/GambitGamesLLC/unity-plugin-totaljson) | [Unity Asset Store Link](https://assetstore.unity.com/packages/tools/input-management/total-json-130344)  
 - Used for JSON manipulation  
-  
+
+- `Rounded Corners` [Github Repo](https://github.com/gilzoide/unity-rounded-corners.git)
+- Provides UIImages with the ability to have rounded corners
