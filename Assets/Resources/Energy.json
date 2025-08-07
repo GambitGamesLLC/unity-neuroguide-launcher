@@ -7,7 +7,7 @@
 	"app": {
 		"name": "Energy",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Energy\\Energy.exe",
-		"length": 8,
+		"length": 3,
 		"debug": true,
 		"logs": false,
 		"threshold": 0.9

@@ -7,7 +7,7 @@
 	"app": {
 		"name": "Flow",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Flow\\Flow.exe",
-		"length": 2,
+		"length": 0.7,
 		"debug": true,
 		"logs": false,
 		"threshold": 0.8
