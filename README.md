@@ -1,7 +1,7 @@
 # unity-neuroguide-launcher
 Unity3D project that launches the processes for NeuroGuide experiences
 
-This application, along with the child apps that it launches, need to be placed within the `%LOCALAPPDATA` path on your Windows PC.
+This application, along with the child apps that it launches, need to be placed within the `%LOCALAPPDATA%` path on your Windows PC.
 
 Please refer to the official [Neuroguide Launcher Installation Guide](https://docs.google.com/document/d/1LlBwy8y8CJdUcBKdF3T6FI2JTMg8hdeoMj30FSdo1g0/edit?usp=sharing) for details on the steps to installing a build on a PC.
 
