@@ -4,12 +4,16 @@
 		"timestamp": "2025-07-28 12:00:00",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\Energy.json"
 	},
-	"app": {
+	"focusSystem": {
 		"name": "Energy",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Energy\\Energy.exe",
-		"length": 3,
-		"debug": true,
 		"logs": false,
-		"threshold": 0.9
+		"debug": true,
+		"totalDurationInSeconds" : 2.5,
+		"preventThresholdPassedLength" : 2.2,
+		"gainingFocusMultiplier" : 1,
+		"losingFocusMultiplier" : 1,
+		"numOfLevelsGained" : 1,
+		"numOfLevelsLost" : 1
 	}
 }
