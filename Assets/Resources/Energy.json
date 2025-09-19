@@ -11,9 +11,49 @@
 		"debug": true,
 		"totalDurationInSeconds" : 2.5,
 		"preventThresholdPassedLength" : 2.2,
-		"gainingFocusMultiplier" : 1,
-		"losingFocusMultiplier" : 1,
-		"numOfLevelsGained" : 1,
-		"numOfLevelsLost" : 1
+		"stages" : [
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.2,
+				"onFailureStageToJumpTo" : 0,
+				"onSuccessStageToJumpTo" : 1
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.4,
+				"onFailureStageToJumpTo" : 0,
+				"onSuccessStageToJumpTo" : 2
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.6,
+				"onFailureStageToJumpTo" : 1,
+				"onSuccessStageToJumpTo" : 3
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.8,
+				"onFailureStageToJumpTo" : 2,
+				"onSuccessStageToJumpTo" : 4
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : .99,
+				"onFailureStageToJumpTo" : 3,
+				"onSuccessStageToJumpTo" : 5
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 1,
+				"onFailureStageToJumpTo" : 2,
+				"onSuccessStageToJumpTo" : 0
+			}
+		]
 	}
 }

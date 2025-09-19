@@ -611,14 +611,46 @@ namespace gambit.launcher
                         }
                     );
 
-                    //focusSystem/gainingFocusMultiplier
+                    //focusSystem/preventThresholdPassedLength
                     ConfigManager.GetNestedFloat
                     (
                         system,
                         new string[]
                         {
                             "focusSystem",
+                            "preventThresholdPassedLength"
+                        },
+                        (float value) =>
+                        {
+                            process.AddArgumentKey("preventThresholdPassedLength");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    #region STAGE 1
+
+                    //for (int i = 0; i < )
+
+                    //focusSystem/stages/gainingFocusMultiplier
+                    ConfigManager.GetNestedFloat
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "stages",
                             "gainingFocusMultiplier"
+
                         },
                         (float value) =>
                         {
@@ -637,13 +669,14 @@ namespace gambit.launcher
                         }
                     );
 
-                    //focusSystem/losingFocusMultiplier
+                    //focusSystem/stages/losingFocusMultiplier
                     ConfigManager.GetNestedFloat
                     (
                         system,
                         new string[]
                         {
                             "focusSystem",
+                            "stages",
                             "losingFocusMultiplier"
                         },
                         (float value) =>
@@ -663,18 +696,19 @@ namespace gambit.launcher
                         }
                     );
 
-                    //focusSystem/losingFocusMultiplier
+                    //focusSystem/stages/threshold
                     ConfigManager.GetNestedFloat
                     (
                         system,
                         new string[]
                         {
                             "focusSystem",
-                            "numOfLevelsGained"
+                            "stages",
+                            "threshold"
                         },
                         (float value) =>
                         {
-                            process.AddArgumentKey("numOfLevelsGained");
+                            process.AddArgumentKey("threshold");
                             process.AddArgumentValue(value.ToString());
 
                             count++;
@@ -689,18 +723,19 @@ namespace gambit.launcher
                         }
                     );
 
-                    //app/losingFocusMultiplier
+                    //focusSystem/stages/onFailureStageToJumpTo
                     ConfigManager.GetNestedFloat
                     (
                         system,
                         new string[]
                         {
                             "focusSystem",
-                            "numOfLevelsLost"
+                            "stages",
+                            "onFailureStageToJumpTo"
                         },
                         (float value) =>
                         {
-                            process.AddArgumentKey("numOfLevelsLost");
+                            process.AddArgumentKey("onFailureStageToJumpTo");
                             process.AddArgumentValue(value.ToString());
 
                             count++;
@@ -714,6 +749,36 @@ namespace gambit.launcher
                             Debug.LogError(error);
                         }
                     );
+
+                    //focusSystem/stages/onSuccessStageToJumpTo
+                    ConfigManager.GetNestedFloat
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "stages",
+                            "onSuccessStageToJumpTo"
+                        },
+                        (float value) =>
+                        {
+                            process.AddArgumentKey("onSuccessStageToJumpTo");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+                    
+                    #endregion
+
                 }
 
             } //end of process foreach
