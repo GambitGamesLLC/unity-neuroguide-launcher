@@ -174,15 +174,19 @@ namespace gambit.launcher
             }
 
             Debug.Log( "----------------------------------------- \n -------------------------------------------------" );
+
             foreach(string key in system.options.argumentKeys)
             {
                 Debug.Log( "key: " + key );
             }
+            
             Debug.Log( "----------------------------------------- \n -------------------------------------------------" );
+            
             foreach(string value in system.options.argumentValues)
             {
                 Debug.Log( "value: " + value );
             }
+            
             Debug.Log( "----------------------------------------- \n -------------------------------------------------" );
 
             ProcessManager.LaunchProcess

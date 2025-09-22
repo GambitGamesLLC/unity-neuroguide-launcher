@@ -4,12 +4,56 @@
 		"timestamp": "2025-07-28 12:00:00",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Launcher\\Energy.json"
 	},
-	"app": {
+	"focusSystem": {
 		"name": "Energy",
 		"path": "%LOCALAPPDATA%\\M3DVR\\Energy\\Energy.exe",
-		"length": 3,
-		"debug": true,
 		"logs": false,
-		"threshold": 0.9
+		"debug": true,
+		"totalDurationInSeconds" : 2.5,
+		"preventThresholdPassedLength" : 2.2,
+		"stages" : [
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.2,
+				"onFailureStageToJumpTo" : 0,
+				"onSuccessStageToJumpTo" : 1
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.4,
+				"onFailureStageToJumpTo" : 0,
+				"onSuccessStageToJumpTo" : 2
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.6,
+				"onFailureStageToJumpTo" : 1,
+				"onSuccessStageToJumpTo" : 3
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.8,
+				"onFailureStageToJumpTo" : 2,
+				"onSuccessStageToJumpTo" : 4
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 0.99,
+				"onFailureStageToJumpTo" : 3,
+				"onSuccessStageToJumpTo" : 5
+			},
+			{
+				"gainingFocusMultiplier" : 1,
+				"losingFocusMultiplier" : 1,
+				"threshold" : 1,
+				"onFailureStageToJumpTo" : 2,
+				"onSuccessStageToJumpTo" : 0
+			}
+		]
 	}
 }

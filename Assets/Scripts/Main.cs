@@ -190,7 +190,7 @@ namespace gambit.launcher
                     }
                 );
             }
-
+            
         } //END LoadConfigs Method
 
         #endregion
@@ -204,8 +204,10 @@ namespace gambit.launcher
         private void GetVariablesFromConfig()
         //----------------------------------------//
         {
+            Debug.Log("Running GetVariablesFromConfig");
+            
             int count = 0;
-            int total = 2 + (configSystem_apps.Count * 6);
+            int total = 3 + (configSystem_apps.Count * 6);
 
             //There are some pieces of data that need to be sent into each process, such as the udp address and port
 
@@ -274,6 +276,7 @@ namespace gambit.launcher
                 }
             );
 
+            
             //For each 'app' json configuration file, there are a number of unique variables we need to pull from the specific app config json file
             foreach(ConfigManager.ConfigManagerSystem system in configSystem_apps)
             {
@@ -287,6 +290,7 @@ namespace gambit.launcher
                     if(currentProcess.id == system.id)
                     {
                         process = currentProcess;
+                        
                     }
                 }
 
@@ -297,164 +301,355 @@ namespace gambit.launcher
                     return;
                 }
 
-                //app/name
-                ConfigManager.GetNestedString
-                (
-                    system,
-                    new string[ ]
-                    {
+                if (system.id == "Flow")
+                {
+                    //app/name
+                    ConfigManager.GetNestedString
+                    (
+                        system,
+                        new string[]
+                        {
                     "app",
                     "name"
-                    },
-                    ( string value ) =>
-                    {
-                        //Once we have the app name, proceed to grab all of the data we need for this app and set the process accordingly
-                        process.SetText( value );
-
-                        count++;
-                        if(count == total)
+                        },
+                        (string value) =>
                         {
-                            CreateProcessSystem();
-                        }
-                    },
-                    ( string error ) =>
-                    {
-                        Debug.LogError( error );
-                    }
-                );
+                            //Once we have the app name, proceed to grab all of the data we need for this app and set the process accordingly
+                            process.SetText(value);
 
-                //app/path
-                ConfigManager.GetNestedPath
-                (
-                    system,
-                    new string[ ]
-                    {
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //app/path
+                    ConfigManager.GetNestedPath
+                    (
+                        system,
+                        new string[]
+                        {
                     "app",
                     "path"
-                    },
-                    ( string path ) =>
-                    {
-                        process.SetPath( path );
-
-                        count++;
-                        if(count == total)
+                        },
+                        (string path) =>
                         {
-                            CreateProcessSystem();
-                        }
-                    },
-                    ( string error ) =>
-                    {
-                        Debug.LogError( error );
-                    }
-                );
+                            process.SetPath(path);
 
-                //app/length
-                ConfigManager.GetNestedFloat
-                (
-                    system,
-                    new string[ ]
-                    {
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //app/length
+                    ConfigManager.GetNestedFloat
+                    (
+                        system,
+                        new string[]
+                        {
                     "app",
                     "length"
-                    },
-                    ( float value ) =>
-                    {
-                        process.AddArgumentKey( "length" );
-                        process.AddArgumentValue( value.ToString() );
-
-                        count++;
-                        if(count == total)
+                        },
+                        (float value) =>
                         {
-                            CreateProcessSystem();
-                        }
-                    },
-                    ( string error ) =>
-                    {
-                        Debug.LogError( error );
-                    }
-                );
+                            process.AddArgumentKey("length");
+                            process.AddArgumentValue(value.ToString());
 
-                //app/debug
-                ConfigManager.GetNestedBool
-                (
-                    system,
-                    new string[ ]
-                    {
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //app/debug
+                    ConfigManager.GetNestedBool
+                    (
+                        system,
+                        new string[]
+                        {
                     "app",
                     "debug"
-                    },
-                    ( bool value ) =>
-                    {
-                        process.AddArgumentKey( "debug" );
-                        process.AddArgumentValue( value.ToString() );
-
-                        count++;
-                        if(count == total)
+                        },
+                        (bool value) =>
                         {
-                            CreateProcessSystem();
-                        }
-                    },
-                    ( string error ) =>
-                    {
-                        Debug.LogError( error );
-                    }
-                );
+                            process.AddArgumentKey("debug");
+                            process.AddArgumentValue(value.ToString());
 
-                //app/logs
-                ConfigManager.GetNestedBool
-                (
-                    system,
-                    new string[ ]
-                    {
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //app/logs
+                    ConfigManager.GetNestedBool
+                    (
+                        system,
+                        new string[]
+                        {
                     "app",
                     "logs"
-                    },
-                    ( bool value ) =>
-                    {
-                        process.AddArgumentKey( "logs" );
-                        process.AddArgumentValue( value.ToString() );
-
-                        count++;
-                        if(count == total)
+                        },
+                        (bool value) =>
                         {
-                            CreateProcessSystem();
-                        }
-                    },
-                    ( string error ) =>
-                    {
-                        Debug.LogError( error );
-                    }
-                );
+                            process.AddArgumentKey("logs");
+                            process.AddArgumentValue(value.ToString());
 
-                //app/threshold
-                ConfigManager.GetNestedFloat
-                (
-                    system,
-                    new string[ ]
-                    {
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //app/threshold
+                    ConfigManager.GetNestedFloat
+                    (
+                        system,
+                        new string[]
+                        {
                     "app",
                     "threshold"
-                    },
-                    ( float value ) =>
-                    {
-                        process.AddArgumentKey( "threshold" );
-                        process.AddArgumentValue( value.ToString() );
-
-                        count++;
-                        if(count == total)
+                        },
+                        (float value) =>
                         {
-                            CreateProcessSystem();
+                            process.AddArgumentKey("threshold");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
                         }
-                    },
-                    ( string error ) =>
-                    {
-                        Debug.LogError( error );
-                    }
-                );
+                    );
+                }
+                else
+                {
+                    
+                    //focusSystem/name
+                    ConfigManager.GetNestedString
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "name"
+                        },
+                        (string value) =>
+                        {
+                            //Once we have the app name, proceed to grab all of the data we need for this app and set the process accordingly
+                            process.SetText(value);
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //focusSystem/path
+                    ConfigManager.GetNestedPath
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "path"
+                        },
+                        (string path) =>
+                        {
+                            process.SetPath(path);
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //focusSystem/length
+                    ConfigManager.GetNestedBool
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "logs"
+                        },
+                        (bool value) =>
+                        {
+                            process.AddArgumentKey("logs");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //app/debug
+                    ConfigManager.GetNestedBool
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "debug"
+                        },
+                        (bool value) =>
+                        {
+                            process.AddArgumentKey("debug");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+                    
+                    //focusSystem/totalDurationInSeconds
+                    ConfigManager.GetNestedFloat
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "totalDurationInSeconds"
+                        },
+                        (float value) =>
+                        {
+                            process.AddArgumentKey("totalDurationInSeconds");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    //focusSystem/preventThresholdPassedLength
+                    ConfigManager.GetNestedFloat
+                    (
+                        system,
+                        new string[]
+                        {
+                            "focusSystem",
+                            "preventThresholdPassedLength"
+                        },
+                        (float value) =>
+                        {
+                            process.AddArgumentKey("preventThresholdPassedLength");
+                            process.AddArgumentValue(value.ToString());
+
+                            count++;
+                            if (count == total)
+                            {
+                                CreateProcessSystem();
+                            }
+                        },
+                        (string error) =>
+                        {
+                            Debug.LogError(error);
+                        }
+                    );
+
+                    #region STAGE 1
+                    
+                    ConfigManager.GetNestedObject
+                   (
+                       system,
+                       new string[]
+                       {
+                            "focusSystem",
+                            "stages"
+                       },
+                       (object value) =>
+                       {
+                           process.AddArgumentKey("stages");
+                           process.AddArgumentValue(value.ToString());
+
+                           count++;
+                           if (count == total)
+                           {
+                               CreateProcessSystem();
+                           }
+
+                       },
+                       (string error) =>
+                       {
+                           Debug.LogError(error);
+                       }
+                   );
+
+                    #endregion
+
+                }
 
             } //end of process foreach
-
-
+            
         } //END GetVariablesFromConfig Method
 
         #endregion
