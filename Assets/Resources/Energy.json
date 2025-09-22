@@ -43,7 +43,7 @@
 			{
 				"gainingFocusMultiplier" : 1,
 				"losingFocusMultiplier" : 1,
-				"threshold" : .99,
+				"threshold" : 0.99,
 				"onFailureStageToJumpTo" : 3,
 				"onSuccessStageToJumpTo" : 5
 			},
